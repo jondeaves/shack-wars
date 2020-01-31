@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameState
@@ -13,6 +12,7 @@ public class GameManager : MonoBehaviour
     public int WinScore = 10;
     public List<GameObject> players = new List<GameObject>();
     private GameState _state;
+    private GameObject winner;
 
     // Start is called before the first frame update
     void Start()
@@ -23,18 +23,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_state == GameState.complete)
-        {
-            return;
-        }
-
         foreach (GameObject player in players)
         {
-            if (player.CompareTag("Player"))
+            PlayerController playerController = player.GetComponent<PlayerController>();
+
+            if (_state == GameState.complete && winner != null)
             {
-                if (player.GetComponent<PlayerController>().Score >= WinScore)
+                PlayerController winnerController = this.winner.GetComponent<PlayerController>();
+                Debug.Log(string.Format("Player {0} has {1}", playerController.PlayerNumber, playerController.PlayerNumber == winnerController.PlayerNumber ? "won" : "lost"));
+            }
+            else if (player.CompareTag("Player"))
+            {
+                if (playerController.Score >= WinScore)
                 {
-                    Debug.Log(string.Format("Player {0} has won", player.GetComponent<PlayerController>().PlayerNumber));
+                    winner = player;
                     _state = GameState.complete;
                 }
             }
