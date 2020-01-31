@@ -55,4 +55,19 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log(string.Format("Adding point for player {0}: {1}", PlayerNumber, Score));
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Stealing
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController otherPlayerController = collision.gameObject.GetComponent<PlayerController>();
+
+            if (otherPlayerController.CurrentPickup != null)
+            {
+                otherPlayerController.CurrentPickup.GetComponent<PickupController>().SetTarget(this.gameObject);
+            }
+
+        }
+    }
 }

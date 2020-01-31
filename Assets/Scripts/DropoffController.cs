@@ -29,7 +29,7 @@ public class DropoffController : MonoBehaviour
                 collision.gameObject.GetComponent<PlayerController>().AddScore(1);
 
                 playerController.CurrentPickup.transform.position = new Vector3(-0.77f, 0.68f, -1.08f);
-                playerController.CurrentPickup.GetComponent<PickupController>().target = null;
+                playerController.CurrentPickup.GetComponent<PickupController>().SetTarget(null);
             }
 
         }
