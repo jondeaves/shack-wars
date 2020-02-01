@@ -493,7 +493,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 1
-  speed: 10
+  Speed: 6
+  InputDeadzone: 0.05
 --- !u!54 &777622050
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -627,7 +628,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 2
-  speed: 10
+  Speed: 6
+  InputDeadzone: 0.1
 --- !u!54 &1060146532
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerController : MonoBehaviour
 {
     public int PlayerNumber = 1;
-    public float speed = 10.0f;
+    public float Speed = 6.0f;
+    public float InputDeadzone = 0.1f;
 
     public int Score { get; private set; }
 
@@ -32,20 +35,25 @@ public class PlayerController : MonoBehaviour
         Score = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // Find out direction vector
+        var gamepad = Gamepad.current;
+        if (gamepad == null)
+            return; // No gamepad connected.
+
+        // Depending on player number
+        StickControl controller = PlayerNumber == 1 ? gamepad.leftStick : gamepad.rightStick;
+
+        Vector2 moveVector = controller.ReadValue();
+
+        // Check deadzones
         Vector3 translationVector = new Vector3(
-            Input.GetAxis(string.Format("Horizontal {0}", PlayerNumber)),
+            moveVector.x >= InputDeadzone || moveVector.x <= -InputDeadzone ? moveVector.x : 0,
             0,
-            Input.GetAxis(string.Format("Vertical {0}", PlayerNumber))
-        );
+            moveVector.y >= InputDeadzone || moveVector.y <= -InputDeadzone ? moveVector.y : 0
+        ) * Speed * Time.fixedDeltaTime;
 
-        translationVector.Normalize();
-        translationVector = translationVector * speed * Time.deltaTime;
-
-        // Make the moves
+        // Make the moves, cut the shapes
         transform.Translate(translationVector);
     }
 
