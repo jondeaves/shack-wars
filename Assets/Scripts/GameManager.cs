@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -12,7 +13,20 @@ public class GameManager : MonoBehaviour
     public int WinScore = 10;
     public List<GameObject> players = new List<GameObject>();
     private GameState _state;
-    private GameObject winner;
+    public GameObject Winner { get; private set; }
+
+    // Make global
+    public static GameManager Instance
+    {
+        get;
+        set;
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(transform.gameObject);
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,23 +37,43 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (GameObject player in players)
+        if (_state == GameState.complete)
         {
+            return;
+        }
+
+        for (int iPlayer = 0; iPlayer < players.Count; iPlayer += 1)
+        {
+            GameObject player = players[iPlayer];
             PlayerController playerController = player.GetComponent<PlayerController>();
 
-            if (_state == GameState.complete && winner != null)
+            if (playerController.Score >= WinScore)
             {
-                PlayerController winnerController = this.winner.GetComponent<PlayerController>();
-                Debug.Log(string.Format("Player {0} has {1}", playerController.PlayerNumber, playerController.PlayerNumber == winnerController.PlayerNumber ? "won" : "lost"));
+                Winner = player;
+                _state = GameState.complete;
+                SetEndData();
+                SceneManager.LoadSceneAsync("EndScene", LoadSceneMode.Single);
             }
-            else if (player.CompareTag("Player"))
+
+        }
+    }
+
+    private void SetEndData()
+    {
+
+        for (int iPlayer = 0; iPlayer < players.Count; iPlayer += 1)
+        {
+            PlayerController playerController = players[iPlayer].GetComponent<PlayerController>();
+
+            GameStats.WinScore = WinScore;
+            GameStats.playerScores.Add(playerController.Score);
+
+            if (playerController.Score >= WinScore)
             {
-                if (playerController.Score >= WinScore)
-                {
-                    winner = player;
-                    _state = GameState.complete;
-                }
+                // Set static stats
+                GameStats.Winner = playerController.PlayerNumber;
             }
+
         }
     }
 }

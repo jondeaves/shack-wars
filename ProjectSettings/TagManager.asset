@@ -7,6 +7,8 @@ TagManager:
   - Pickup
   - Ground
   - Dropoff
+  - WinnerText
+  - LoserText
   layers:
   - Default
   - TransparentFX
