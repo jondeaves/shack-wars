@@ -50,20 +50,20 @@ public class PlayerController : MonoBehaviour
         Vector2 facingVector;
         switch (PlayerNumber)
         {
+            case 1:
+                facingVector = Gamepad.all.Count > 0 ? Gamepad.all[0].leftStick.ReadValue() : Vector2.zero;
+                break;
             case 2:
-                facingVector = gamepad.dpad.ReadValue();
+                facingVector = Gamepad.all.Count > 0 ? Gamepad.all[0].rightStick.ReadValue() : Vector2.zero;
                 break;
             case 3:
-                facingVector = gamepad.rightStick.ReadValue();
+                facingVector = Gamepad.all.Count > 1 ? Gamepad.all[1].leftStick.ReadValue() : Vector2.zero;
                 break;
             case 4:
-                facingVector = new Vector2(
-                    gamepad.buttonWest.ReadValue() > 0 ? -gamepad.buttonWest.ReadValue() : gamepad.buttonEast.ReadValue(),
-                    gamepad.buttonNorth.ReadValue() > 0 ? gamepad.buttonNorth.ReadValue() : -gamepad.buttonSouth.ReadValue()
-                );
+                facingVector = Gamepad.all.Count > 1 ? Gamepad.all[1].rightStick.ReadValue() : Vector2.zero;
                 break;
             default:
-                facingVector = gamepad.leftStick.ReadValue();
+                facingVector = Vector2.zero;
                 break;
 
         }
