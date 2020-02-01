@@ -11,6 +11,8 @@ TagManager:
   - LoserText
   - FadeIn
   - Delay
+  - SfxAudioSource
+  - Spawnpoint
   layers:
   - Default
   - TransparentFX

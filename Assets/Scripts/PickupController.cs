@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PickupController : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class PickupController : MonoBehaviour
     {
         if (target != null)
         {
-            this.transform.position = target.transform.position + new Vector3(0, 1.4f, 0);
+            this.transform.position = target.transform.position + new Vector3(-0.14f, 1.8f, 0.4f);
         }
 
         if (_targetTimeoutCounter > 0)
@@ -22,11 +20,11 @@ public class PickupController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         if (target == null)
         {
-            SetTarget(collision.gameObject);
+            SetTarget(other.gameObject);
         }
     }
 

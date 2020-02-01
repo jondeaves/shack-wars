@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
 
             foreach (GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup"))
             {
+                if (pickup.GetComponent<PickupController>().target)
+                {
+                    int number1 = pickup.GetComponent<PickupController>().target.GetComponent<PlayerController>().PlayerNumber;
+                    int number2 = this.GetComponent<PlayerController>().PlayerNumber;
+                }
                 if (pickup.GetComponent<PickupController>().target == this.gameObject)
                 {
                     _pickup = pickup;
@@ -109,6 +114,8 @@ public class PlayerController : MonoBehaviour
 
     public void AddScore(int points)
     {
+        FindObjectOfType<GameManager>().PlaySfx(0);
+
         Score += points;
     }
 

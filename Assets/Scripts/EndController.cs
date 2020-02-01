@@ -22,7 +22,6 @@ public class EndController : MonoBehaviour
             if (playerNumber != GameStats.Winner)
             {
                 loserScores.Add(playerNumber);
-                Debug.Log(string.Format("Player {0} did not win", playerNumber));
             }
         }
 

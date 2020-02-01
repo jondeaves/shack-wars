@@ -32,7 +32,7 @@ public class DropoffController : MonoBehaviour
             // Score point to player
             collision.gameObject.GetComponent<PlayerController>().AddScore(1);
 
-            playerController.CurrentPickup.transform.position = new Vector3(5f, 0.45f, 5f);
+            playerController.CurrentPickup.transform.position = new Vector3(5f, 0f, 5f);
             playerController.CurrentPickup.GetComponent<PickupController>().SetTarget(null);
 
         }

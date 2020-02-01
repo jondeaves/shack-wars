@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,10 +15,15 @@ public class GameManager : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
     private GameState _state;
     public GameObject Winner { get; private set; }
+    public List<AudioClip> SoundEffects = new List<AudioClip>();
+    public GameObject PickupPrefab;
+
+    private float _spawnTimer;
 
     // Start is called before the first frame update
     void Start()
     {
+        _spawnTimer = Random.Range(3, 5);
         _state = GameState.running;
         GameObject.FindGameObjectWithTag("Delay").GetComponent<AudioSource>().PlayDelayed(1f);
     }
@@ -51,6 +57,14 @@ public class GameManager : MonoBehaviour
             }
 
         }
+
+        // Every 3-5 seconds spawn a new pickup, if we aren't at maximum capacity
+        _spawnTimer -= Time.deltaTime;
+        if (_spawnTimer <= 0)
+        {
+            SpawnPickup();
+            _spawnTimer = Random.Range(3, 5);
+        }
     }
 
     private void SetEndData()
@@ -69,6 +83,52 @@ public class GameManager : MonoBehaviour
                 GameStats.Winner = playerController.PlayerNumber;
             }
 
+        }
+    }
+
+    public void PlaySfx(int idx)
+    {
+        GameObject.FindGameObjectWithTag("SfxAudioSource").GetComponent<AudioSource>().PlayOneShot(
+            FindObjectOfType<GameManager>().SoundEffects[idx]
+        );
+    }
+
+    private void SpawnPickup()
+    {
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
+        GameObject[] currentPickups = GameObject.FindGameObjectsWithTag("Pickup");
+
+        if (currentPickups.Length < spawnPoints.Length)
+        {
+            // Further filter spawn points by which are 'occupied'
+            List<GameObject> emptySpawnPoints = new List<GameObject>();
+
+            if (currentPickups.Length > 0)
+            {
+                foreach (GameObject pickup in currentPickups)
+                {
+                    foreach (GameObject spawnPoint in spawnPoints)
+                    {
+                        if (pickup.transform.position.x != spawnPoint.transform.position.x &&
+                            pickup.transform.position.y != spawnPoint.transform.position.y)
+                        {
+                            emptySpawnPoints.Add(spawnPoint);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                emptySpawnPoints = spawnPoints.OfType<GameObject>().ToList();
+            }
+
+            if (emptySpawnPoints.Count > 0)
+            {
+                GameObject chosenSpawnPoint = emptySpawnPoints[Random.Range(0, emptySpawnPoints.Count - 1)];
+                Instantiate(PickupPrefab, chosenSpawnPoint.transform.position, Quaternion.identity);
+
+                Debug.Log(string.Format("Spawning new pickup at {0}:{1}", chosenSpawnPoint.transform.position.x, chosenSpawnPoint.transform.position.y));
+            }
         }
     }
 }
