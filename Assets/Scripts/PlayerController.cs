@@ -36,14 +36,38 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Cheaply hacking gravity until we have bounds
+        if (transform.position.y < 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        }
+
         var gamepad = Gamepad.current;
         if (gamepad == null)
             return; // No gamepad connected.
 
         // Depending on player number
-        StickControl controller = PlayerNumber == 1 ? gamepad.leftStick : gamepad.rightStick;
+        Vector2 facingVector;
+        switch (PlayerNumber)
+        {
+            case 2:
+                facingVector = gamepad.dpad.ReadValue();
+                break;
+            case 3:
+                facingVector = gamepad.rightStick.ReadValue();
+                break;
+            case 4:
+                facingVector = new Vector2(
+                    gamepad.buttonWest.ReadValue() > 0 ? -gamepad.buttonWest.ReadValue() : gamepad.buttonEast.ReadValue(),
+                    gamepad.buttonNorth.ReadValue() > 0 ? gamepad.buttonNorth.ReadValue() : -gamepad.buttonSouth.ReadValue()
+                );
+                break;
+            default:
+                facingVector = gamepad.leftStick.ReadValue();
+                break;
 
-        Vector2 facingVector = controller.ReadValue();
+        }
+
 
 
         // Check deadzones
@@ -86,8 +110,6 @@ public class PlayerController : MonoBehaviour
     public void AddScore(int points)
     {
         Score += points;
-
-        Debug.Log(string.Format("Adding point for player {0}: {1}", PlayerNumber, Score));
     }
 
     void OnCollisionEnter(Collision collision)
