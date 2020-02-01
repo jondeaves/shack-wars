@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public int PlayerNumber = 1;
     public float Speed = 6.0f;
+    public float RotateSpeed = 20.0f;
     public float InputDeadzone = 0.1f;
 
     public int Score { get; private set; }
@@ -42,17 +43,44 @@ public class PlayerController : MonoBehaviour
         // Depending on player number
         StickControl controller = PlayerNumber == 1 ? gamepad.leftStick : gamepad.rightStick;
 
-        Vector2 moveVector = controller.ReadValue();
+        Vector2 facingVector = controller.ReadValue();
+
 
         // Check deadzones
-        Vector3 translationVector = new Vector3(
-            moveVector.x >= InputDeadzone || moveVector.x <= -InputDeadzone ? moveVector.x : 0,
-            0,
-            moveVector.y >= InputDeadzone || moveVector.y <= -InputDeadzone ? moveVector.y : 0
-        ) * Speed * Time.fixedDeltaTime;
+        if (facingVector.x >= InputDeadzone || facingVector.x <= -InputDeadzone || facingVector.y >= InputDeadzone || facingVector.y <= -InputDeadzone)
+        {
 
-        // Make the moves, cut the shapes
-        transform.Translate(translationVector);
+
+            // Turn to face the input
+            // ---
+            Vector3 targetDirection = (transform.position + new Vector3(facingVector.x, 0, facingVector.y)) - transform.position;
+
+            // The step size is equal to speed times frame time.
+            float singleStep = RotateSpeed * Time.fixedDeltaTime;
+
+            // Rotate the forward vector towards the target direction by one step
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+            // Draw a ray pointing at our target in
+            Debug.DrawRay(transform.position, newDirection, Color.red);
+
+            // Calculate a rotation a step closer to the target and applies rotation to this object
+            transform.rotation = Quaternion.LookRotation(newDirection);
+
+
+            // Move in forward vector
+            // --
+            //transform.Translate(Vector3.forward * Speed * Time.fixedDeltaTime);
+            Vector3 translationVector = new Vector3(
+                facingVector.x,
+                0,
+                facingVector.y
+            ) * Speed * Time.fixedDeltaTime;
+
+            // Make the moves, cut the shapes
+            //transform.Translate(translationVector);
+            transform.position = transform.position + translationVector;
+        }
     }
 
     public void AddScore(int points)

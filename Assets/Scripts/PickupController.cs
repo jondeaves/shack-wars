@@ -13,7 +13,7 @@ public class PickupController : MonoBehaviour
     {
         if (target != null)
         {
-            this.transform.position = target.transform.position + new Vector3(0, 0.7f, 0);
+            this.transform.position = target.transform.position + new Vector3(0, 1.4f, 0);
         }
 
         if (_targetTimeoutCounter > 0)
@@ -26,18 +26,16 @@ public class PickupController : MonoBehaviour
     {
         if (target == null)
         {
-            target = collision.gameObject;
+            SetTarget(collision.gameObject);
         }
     }
 
     public void SetTarget(GameObject _target)
     {
-        if (_targetTimeoutCounter > 0)
+        if (_targetTimeoutCounter > 0 || (_target != null && _target.GetComponent<PlayerController>().CurrentPickup != null))
         {
             return;
         }
-
-        Debug.Log("Changing target");
 
         this.target = _target;
 
