@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ public class EndController : MonoBehaviour
 {
     private void Start()
     {
+        GameObject.FindGameObjectWithTag("Delay").GetComponent<AudioSource>().PlayDelayed(1f);
+
         GameObject.FindGameObjectWithTag("WinnerText").GetComponent<Text>().text = GetLabelText(GameStats.Winner, false);
 
         List<int> loserScores = new List<int>();
@@ -48,6 +51,13 @@ public class EndController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AudioSource fadeInSource = GameObject.FindGameObjectWithTag("FadeIn").GetComponent<AudioSource>();
+        if (fadeInSource.volume < 0.6f)
+        {
+            fadeInSource.volume += 0.1f * Time.deltaTime;
+        }
+
+
         var gamepad = Gamepad.current;
         if (gamepad == null)
             return; // No gamepad connected.

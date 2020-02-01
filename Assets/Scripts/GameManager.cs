@@ -15,23 +15,11 @@ public class GameManager : MonoBehaviour
     private GameState _state;
     public GameObject Winner { get; private set; }
 
-    // Make global
-    public static GameManager Instance
-    {
-        get;
-        set;
-    }
-
-    void Awake()
-    {
-        DontDestroyOnLoad(transform.gameObject);
-        Instance = this;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         _state = GameState.running;
+        GameObject.FindGameObjectWithTag("Delay").GetComponent<AudioSource>().PlayDelayed(1f);
     }
 
     // Update is called once per frame
@@ -40,6 +28,13 @@ public class GameManager : MonoBehaviour
         if (_state == GameState.complete)
         {
             return;
+        }
+
+
+        AudioSource fadeInSource = GameObject.FindGameObjectWithTag("FadeIn").GetComponent<AudioSource>();
+        if (fadeInSource.volume < 0.1f)
+        {
+            fadeInSource.volume += 0.01f * Time.deltaTime;
         }
 
         for (int iPlayer = 0; iPlayer < players.Count; iPlayer += 1)

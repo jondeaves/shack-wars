@@ -9,6 +9,8 @@ TagManager:
   - Dropoff
   - WinnerText
   - LoserText
+  - FadeIn
+  - Delay
   layers:
   - Default
   - TransparentFX
