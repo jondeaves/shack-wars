@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                     foreach (GameObject spawnPoint in spawnPoints)
                     {
                         if (pickup.transform.position.x != spawnPoint.transform.position.x &&
-                            pickup.transform.position.y != spawnPoint.transform.position.y)
+                            pickup.transform.position.z != spawnPoint.transform.position.z)
                         {
                             emptySpawnPoints.Add(spawnPoint);
                         }
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
                 GameObject chosenSpawnPoint = emptySpawnPoints[Random.Range(0, emptySpawnPoints.Count - 1)];
                 Instantiate(PickupPrefab, chosenSpawnPoint.transform.position, Quaternion.identity);
 
-                Debug.Log(string.Format("Spawning new pickup at {0}:{1}", chosenSpawnPoint.transform.position.x, chosenSpawnPoint.transform.position.y));
+                Debug.Log(string.Format("Spawning new pickup at {0}:{1}", chosenSpawnPoint.transform.position.x, chosenSpawnPoint.transform.position.z));
             }
         }
     }
