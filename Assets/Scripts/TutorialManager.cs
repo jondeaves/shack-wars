@@ -12,9 +12,10 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Tutorial2").SetActive(false);
-        GameObject.FindGameObjectWithTag("Tutorial3").SetActive(false);
-        GameObject.FindGameObjectWithTag("Tutorial4").SetActive(false);
+        TutorialSteps[0].SetActive(true);
+        TutorialSteps[1].SetActive(false);
+        TutorialSteps[2].SetActive(false);
+        TutorialSteps[3].SetActive(false);
 
         SetTutorialText();
     }
