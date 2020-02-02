@@ -114,9 +114,17 @@ public class PlayerController : MonoBehaviour
 
     public void AddScore(int points)
     {
-        FindObjectOfType<GameManager>().PlaySfx(0);
+        if (FindObjectOfType<GameManager>())
+        {
+            FindObjectOfType<GameManager>().PlaySfx(0);
 
-        Score += points;
+
+            Score += points;
+        }
+        else if (FindObjectOfType<TutorialManager>())
+        {
+            FindObjectOfType<TutorialManager>().Next();
+        }
     }
 
     void OnCollisionEnter(Collision collision)

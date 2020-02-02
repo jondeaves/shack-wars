@@ -13,7 +13,7 @@ public class MenuController : MonoBehaviour
 
         if (gamepad.startButton.wasPressedThisFrame)
         {
-            SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+            SceneManager.LoadScene("TutorialScene", LoadSceneMode.Single);
         }
     }
 }
