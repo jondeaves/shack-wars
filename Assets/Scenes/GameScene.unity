@@ -39560,6 +39560,11 @@ PrefabInstance:
       propertyPath: Wall3
       value: 
       objectReference: {fileID: 1622891998}
+    - target: {fileID: 4242690597670943951, guid: 2a0936f00515c450281feff2600857e8,
+        type: 3}
+      propertyPath: Speed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a0936f00515c450281feff2600857e8, type: 3}
 --- !u!1001 &318482408447021887
@@ -39664,6 +39669,11 @@ PrefabInstance:
       propertyPath: Wall3
       value: 
       objectReference: {fileID: 120738000}
+    - target: {fileID: 318482409378151876, guid: 409510b51965445a9860d09a1e708614,
+        type: 3}
+      propertyPath: Speed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 318482409378151877, guid: 409510b51965445a9860d09a1e708614,
         type: 3}
       propertyPath: m_Name
@@ -40002,6 +40012,11 @@ PrefabInstance:
       propertyPath: Wall3
       value: 
       objectReference: {fileID: 796010257}
+    - target: {fileID: 3039786667067690485, guid: d85e027ccb4694664ba60219998c9bae,
+        type: 3}
+      propertyPath: Speed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85e027ccb4694664ba60219998c9bae, type: 3}
 --- !u!1001 &3693968577667300305
@@ -40336,6 +40351,11 @@ PrefabInstance:
       propertyPath: Wall3
       value: 
       objectReference: {fileID: 395337999}
+    - target: {fileID: 2348103179729575963, guid: 33e5f41eac71f4e63b8539cec066b677,
+        type: 3}
+      propertyPath: Speed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2348103179729575964, guid: 33e5f41eac71f4e63b8539cec066b677,
         type: 3}
       propertyPath: m_LocalPosition.x
