@@ -30,7 +30,7 @@ public class DropoffController : MonoBehaviour
         if (collision.gameObject == TargetPlayer && playerController.CurrentPickup != null)
         {
             // Score point to player
-            collision.gameObject.GetComponent<PlayerController>().AddScore(1);
+            collision.gameObject.GetComponent<PlayerController>().AddScore();
 
             Destroy(playerController.CurrentPickup);
 

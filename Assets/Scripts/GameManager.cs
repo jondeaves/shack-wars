@@ -12,6 +12,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public int WinScore = 10;
+    public int PointsPerBlock = 1;
     public List<GameObject> players = new List<GameObject>();
     private GameState _state;
     public GameObject Winner { get; private set; }

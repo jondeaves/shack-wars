@@ -17,6 +17,11 @@ TagManager:
   - Tutorial2
   - Tutorial3
   - Tutorial4
+  - Roof
+  - Door
+  - Wall
+  - Wall 2
+  - Wall 3
   layers:
   - Default
   - TransparentFX

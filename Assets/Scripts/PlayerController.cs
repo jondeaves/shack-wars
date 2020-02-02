@@ -11,6 +11,13 @@ public class PlayerController : MonoBehaviour
 
     public int Score { get; private set; }
 
+
+    public GameObject Roof;
+    public GameObject Door;
+    public GameObject Wall1;
+    public GameObject Wall2;
+    public GameObject Wall3;
+
     public GameObject CurrentPickup
     {
         get
@@ -112,14 +119,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void AddScore(int points)
+    public void AddScore()
     {
         if (FindObjectOfType<GameManager>())
         {
             FindObjectOfType<GameManager>().PlaySfx(0);
 
-
-            Score += points;
+            Score += GameObject.FindObjectOfType<GameManager>().PointsPerBlock;
+            TriggerShackEnhancement();
         }
         else if (FindObjectOfType<TutorialManager>())
         {
@@ -139,6 +146,30 @@ public class PlayerController : MonoBehaviour
                 otherPlayerController.CurrentPickup.GetComponent<PickupController>().SetTarget(this.gameObject);
             }
 
+        }
+    }
+
+    void TriggerShackEnhancement()
+    {
+        if (Score >= 10 && Wall3)
+        {
+            Wall3.SetActive(true);
+        }
+        else if (Score >= 8 && Wall2)
+        {
+            Wall2.SetActive(true);
+        }
+        else if (Score >= 6 && Wall1)
+        {
+            Wall1.SetActive(true);
+        }
+        else if (Score >= 4 && Door)
+        {
+            Door.SetActive(true);
+        }
+        else if (Score >= 2 && Roof)
+        {
+            Roof.SetActive(true);
         }
     }
 }
