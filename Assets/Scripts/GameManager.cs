@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int WinScore = 10;
     public int PointsPerBlock = 1;
     public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> dropoffs = new List<GameObject>();
     private GameState _state;
     public GameObject Winner { get; private set; }
     public List<AudioClip> SoundEffects = new List<AudioClip>();
@@ -27,6 +28,23 @@ public class GameManager : MonoBehaviour
         _spawnTimer = Random.Range(3, 5);
         _state = GameState.running;
         GameObject.FindGameObjectWithTag("Delay").GetComponent<AudioSource>().PlayDelayed(1f);
+
+        if (GameSetup.PlayerCount == 1)
+        {
+            GameSetup.PlayerCount = 2;
+        }
+
+        if (GameSetup.PlayerCount < 4)
+        {
+            for (int iDisabled = 3; iDisabled >= GameSetup.PlayerCount; iDisabled -= 1)
+            {
+                GameObject playerObj = players[iDisabled];
+                GameObject shackObj = dropoffs[iDisabled];
+
+                playerObj.SetActive(false);
+                shackObj.SetActive(false);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -71,7 +89,7 @@ public class GameManager : MonoBehaviour
     private void SetEndData()
     {
 
-        for (int iPlayer = 0; iPlayer < players.Count; iPlayer += 1)
+        for (int iPlayer = 0; iPlayer < GameSetup.PlayerCount; iPlayer += 1)
         {
             PlayerController playerController = players[iPlayer].GetComponent<PlayerController>();
 
@@ -128,7 +146,7 @@ public class GameManager : MonoBehaviour
                 GameObject chosenSpawnPoint = emptySpawnPoints[Random.Range(0, emptySpawnPoints.Count - 1)];
                 Instantiate(PickupPrefab, chosenSpawnPoint.transform.position, Quaternion.identity);
 
-                Debug.Log(string.Format("Spawning new pickup at {0}:{1}", chosenSpawnPoint.transform.position.x, chosenSpawnPoint.transform.position.z));
+                //Debug.Log(string.Format("Spawning new pickup at {0}:{1}", chosenSpawnPoint.transform.position.x, chosenSpawnPoint.transform.position.z));
             }
         }
     }

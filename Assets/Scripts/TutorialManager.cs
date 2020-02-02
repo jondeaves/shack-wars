@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
     private int tutorialNumber = 1;
+    private bool isComplete = false;
 
     public GameObject[] TutorialSteps;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (GameSetup.PlayerCount == 1)
+        {
+            GameSetup.PlayerCount = 2;
+        }
         TutorialSteps[0].SetActive(true);
         TutorialSteps[1].SetActive(false);
         TutorialSteps[2].SetActive(false);
@@ -27,7 +32,15 @@ public class TutorialManager : MonoBehaviour
         if (gamepad == null)
             return; // No gamepad connected.
 
-        if (gamepad.startButton.wasPressedThisFrame && tutorialNumber > 4)
+        if (isComplete)
+        {
+            TutorialSteps[0].SetActive(false);
+            TutorialSteps[1].SetActive(false);
+            TutorialSteps[2].SetActive(false);
+            TutorialSteps[3].SetActive(false);
+        }
+
+        if (gamepad.startButton.wasPressedThisFrame && isComplete)
         {
             SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }
@@ -36,6 +49,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Next()
     {
+
         if (TutorialSteps.Length >= (tutorialNumber))
         {
             TutorialSteps[tutorialNumber - 1].SetActive(false);
@@ -55,8 +69,9 @@ public class TutorialManager : MonoBehaviour
     {
         string msg = string.Format("Player {0} pick up the box and drop it off in the shack", tutorialNumber);
 
-        if (tutorialNumber > TutorialSteps.Length)
+        if (tutorialNumber > GameSetup.PlayerCount)
         {
+            isComplete = true;
             msg = string.Format("Press start to begin");
         }
 

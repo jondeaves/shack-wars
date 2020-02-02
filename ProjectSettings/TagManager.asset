@@ -22,6 +22,7 @@ TagManager:
   - Wall
   - Wall 2
   - Wall 3
+  - playercount
   layers:
   - Default
   - TransparentFX
