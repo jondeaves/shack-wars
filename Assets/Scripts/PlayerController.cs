@@ -151,25 +151,26 @@ public class PlayerController : MonoBehaviour
 
     void TriggerShackEnhancement()
     {
-        if (Score >= 10 && Wall3)
+        if (Score >= 10 && Roof)
         {
-            Wall3.SetActive(true);
+            Roof.SetActive(true);
         }
-        else if (Score >= 8 && Wall2)
-        {
-            Wall2.SetActive(true);
-        }
-        else if (Score >= 6 && Wall1)
-        {
-            Wall1.SetActive(true);
-        }
-        else if (Score >= 4 && Door)
+        else if (Score >= 8 && Door)
         {
             Door.SetActive(true);
         }
-        else if (Score >= 2 && Roof)
+
+        else if (Score >= 6 && Wall3)
         {
-            Roof.SetActive(true);
+            Wall3.SetActive(true);
+        }
+        else if (Score >= 4 && Wall2)
+        {
+            Wall2.SetActive(true);
+        }
+        else if (Score >= 2 && Wall1)
+        {
+            Wall1.SetActive(true);
         }
     }
 }
